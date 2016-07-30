@@ -65,8 +65,31 @@ server.route({
 });
 
 // PATCH /bookmarks/:id
+server.route({
+  method: 'PATCH',
+  path: '/bookmarks/{id}',
+  handler: (request, reply) => {
+    return reply().code(204);
+  }
+});
+
 // DELETE /bookmarks/:id
+server.route({
+  method: 'DELETE',
+  path: '/bookmarks/{id}',
+  handler: (request, reply) => {
+    return reply().code(204);
+  }
+});
+
 // POST /bookmarks/:id/upvote
+server.route({
+  method: 'POST',
+  path: '/bookmarks/{id}/upvote',
+  handler: (request, reply) => {
+    return reply().code(204);
+  }
+});
 
 
 // register good plugin and start server
