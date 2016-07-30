@@ -2,26 +2,12 @@
 
 exports.register = function (server, options, next) {
 
-  // sample data
-  const bookmarks = [{
-      "_id": "534de420-2d86-11e6-b18e-4b692101e6d2",
-      "title": "CNN",
-      "url": "http://cnn.com/",
-      "created": new Date(),
-      "creator": "0a44ce1a-2cb9-11e6-b67b-9e71128cae77",
-      "upvoters": [
+  const db = server.plugins['db'].db;
 
-      ]
-  }, {
-      "_id": "86ed6030-2d86-11e6-b18e-4b692101e6d2",
-      "title": "Huffington Post",
-      "url": "http://www.huffingtonpost.com",
-      "created": new Date(),
-      "creator": "0a44ce1a-2cb9-11e6-b67b-9e71128cae77",
-      "upvoters": [
-
-      ]
-  }];
+  const renameAndClearFields = (doc) => {
+    doc.id = doc._id;
+    delete doc._id;
+  };
 
   // routes needed
   // GET /bookmarks
@@ -29,7 +15,43 @@ exports.register = function (server, options, next) {
     method: 'GET',
     path: '/bookmarks',
     handler: (request, reply) => {
-      return reply(bookmarks);
+
+      let sort;
+
+      if (request.query.sort === 'top') {
+        sort = {
+          $sort: {
+            upvotes: -1
+          }
+        };
+      } else {
+        sort = {
+          $sort: {
+            created: -1
+          }
+        };
+      }
+
+      db.bookmarks.aggregate({
+        $project: {
+          title: 1,
+          url: 1,
+          created: 1,
+          upvotes: {
+            $size: "$upvoters"
+          }
+        }
+      }, sort, (err, docs) => {
+
+        if (err) {
+          throw err;
+        }
+        // rename _id to id
+        docs.forEach(renameAndClearFields);
+
+        return reply(docs);
+
+      });
     }
   });
 
@@ -88,5 +110,6 @@ exports.register = function (server, options, next) {
 };
 
 exports.register.attributes = {
-  name: 'routes-bookmarks'
+  name: 'routes-bookmarks',
+  dependencies: ['db']
 };

@@ -28,6 +28,8 @@ server.register([{
   }
 }, {
   register: require('./routes/bookmarks')
+}, {
+  register: require('./plugins/db')
 }], (err) => {
   if (err) {
     throw err;
