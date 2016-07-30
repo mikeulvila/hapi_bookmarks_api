@@ -7,6 +7,9 @@ exports.register = function (server, options, next) {
   const renameAndClearFields = (doc) => {
     doc.id = doc._id;
     delete doc._id;
+
+    delete doc.creator;
+    delete doc.upvoters;
   };
 
   // routes needed
@@ -60,7 +63,25 @@ exports.register = function (server, options, next) {
     method: 'GET',
     path: '/bookmarks/{id}',
     handler: (request, reply) => {
-      return reply(bookmarks[0]);
+
+      db.bookmarks.findOne({
+        _id: request.params.id
+      }, (err, doc) => {
+
+        if (err) {
+          throw err;
+        }
+
+        if (!doc) {
+          return reply('Not found').code(404);
+        }
+
+        // rename _id to id
+        renameAndClearFields(doc);
+
+        return reply(doc);
+      });
+
     }
   });
 
