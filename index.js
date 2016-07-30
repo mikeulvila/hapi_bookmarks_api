@@ -1,6 +1,7 @@
 'use strict';
 
 const Hapi = require('hapi');
+const uuid = require('node-uuid');
 
 // hapi server and connection
 const server = new Hapi.Server();
@@ -38,6 +39,7 @@ server.route({
     return reply(bookmarks);
   }
 });
+
 // GET /bookmarks/:id
 server.route({
   method: 'GET',
@@ -46,7 +48,22 @@ server.route({
     return reply(bookmarks[0]);
   }
 });
+
 // POST /bookmarks
+server.route({
+  method: 'POST',
+  path: '/bookmarks',
+  handler: (request, reply) => {
+
+    const bookmark = request.payload;
+
+    bookmark._id = uuid.v1();
+    bookmark.created = new Date();
+
+    return reply(bookmark).code(201);
+  }
+});
+
 // PATCH /bookmarks/:id
 // DELETE /bookmarks/:id
 // POST /bookmarks/:id/upvote
