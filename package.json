@@ -1,0 +1,25 @@
+{
+  "name": "hapi_bookmarks_api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mikeulvila/hapi_bookmarks_api.git"
+  },
+  "author": "Mike Ulvila <mikeulvila@me.com> (https://github.com/mikeulvila)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mikeulvila/hapi_bookmarks_api/issues"
+  },
+  "homepage": "https://github.com/mikeulvila/hapi_bookmarks_api#readme",
+  "dependencies": {
+    "good": "^7.0.1",
+    "good-console": "^6.1.2",
+    "good-squeeze": "^4.0.0",
+    "hapi": "^14.0.0"
+  }
+}
