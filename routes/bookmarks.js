@@ -1,5 +1,7 @@
 'use strict';
 
+const uuid = require('node-uuid');
+
 exports.register = function (server, options, next) {
 
   const db = server.plugins['db'].db;
@@ -76,6 +78,8 @@ exports.register = function (server, options, next) {
           return reply('Not found').code(404);
         }
 
+        doc.upvotes = doc.upvoters.length;
+
         // rename _id to id
         renameAndClearFields(doc);
 
@@ -95,8 +99,21 @@ exports.register = function (server, options, next) {
 
       bookmark._id = uuid.v1();
       bookmark.created = new Date();
+      bookmark.creator = '';
+      bookmark.upvoters = [];
+      bookmark.upvotes = 0;
 
-      return reply(bookmark).code(201);
+      db.bookmarks.save(bookmark, (err, result) => {
+
+        if (err) {
+          throw err;
+        }
+
+        renameAndClearFields(bookmark);
+
+        return reply(bookmark).code(201);
+      });
+
     }
   });
 
