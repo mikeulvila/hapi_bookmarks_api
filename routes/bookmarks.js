@@ -148,7 +148,22 @@ exports.register = function (server, options, next) {
     method: 'DELETE',
     path: '/bookmarks/{id}',
     handler: (request, reply) => {
-      return reply().code(204);
+
+      db.bookmarks.remove({
+          _id: request.params.id
+      }, (err, result) => {
+
+          if (err) {
+              throw err;
+          }
+
+          if (result.n === 0) {
+              return reply().code(404);
+          }
+
+          return reply().code(204);
+
+      });
     }
   });
 
@@ -157,7 +172,26 @@ exports.register = function (server, options, next) {
     method: 'POST',
     path: '/bookmarks/{id}/upvote',
     handler: (request, reply) => {
-      return reply().code(204);
+
+      db.bookmarks.update({
+          _id: request.params.id
+      }, {
+          $addToSet: {
+              upvoters: ''
+          }
+      }, (err, result) => {
+
+          if (err) {
+              throw err;
+          }
+
+          if (result.n === 0) {
+              return reply().code(404);
+          }
+
+          return reply().code(204);
+
+      });
     }
   });
 
