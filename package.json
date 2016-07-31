@@ -18,6 +18,7 @@
   "homepage": "https://github.com/mikeulvila/hapi_bookmarks_api#readme",
   "dependencies": {
     "bcrypt": "^0.8.7",
+    "boom": "^3.2.2",
     "good": "^7.0.1",
     "good-console": "^6.1.2",
     "good-squeeze": "^4.0.0",

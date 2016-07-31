@@ -2,6 +2,7 @@
 
 const uuid = require('node-uuid');
 const Joi = require('joi');
+const Boom = require('boom');
 
 exports.register = function (server, options, next) {
 
@@ -83,7 +84,7 @@ exports.register = function (server, options, next) {
         }
 
         if (!doc) {
-          return reply('Not found').code(404);
+          return reply(Boom.notFound());
         }
 
         doc.upvotes = doc.upvoters.length;
@@ -149,7 +150,7 @@ exports.register = function (server, options, next) {
         }
 
         if (result.n === 0) {
-          return reply().code(404);
+          return reply(Boom.notFound());
         }
 
         return reply().code(204);
@@ -181,7 +182,7 @@ exports.register = function (server, options, next) {
           }
 
           if (result.n === 0) {
-              return reply().code(404);
+              return reply(Boom.notFound());
           }
 
           return reply().code(204);
@@ -209,7 +210,7 @@ exports.register = function (server, options, next) {
           }
 
           if (result.n === 0) {
-              return reply().code(404);
+              return reply(Boom.notFound());
           }
 
           return reply().code(204);
