@@ -122,7 +122,24 @@ exports.register = function (server, options, next) {
     method: 'PATCH',
     path: '/bookmarks/{id}',
     handler: (request, reply) => {
-      return reply().code(204);
+
+      db.bookmarks.update({
+        _id: request.params.id
+      }, {
+        $set: request.payload
+      }, (err, result) => {
+
+        if (err) {
+          throw err;
+        }
+
+        if (result.n === 0) {
+          return reply().code(404);
+        }
+
+        return reply().code(204);
+
+      });
     }
   });
 
