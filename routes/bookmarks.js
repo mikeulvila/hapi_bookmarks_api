@@ -108,7 +108,7 @@ exports.register = function (server, options, next) {
 
       bookmark._id = uuid.v1();
       bookmark.created = new Date();
-      bookmark.creator = '';
+      bookmark.creator = request.auth.credentials._id;
       bookmark.upvoters = [];
       bookmark.upvotes = 0;
 
@@ -124,6 +124,7 @@ exports.register = function (server, options, next) {
       });
     },
     config: {
+      auth: 'bearer',
       validate: {
         payload: {
           title: Joi.string().min(1).max(100).required(),
@@ -158,6 +159,7 @@ exports.register = function (server, options, next) {
       });
     },
     config: {
+      auth: 'bearer',
       validate: {
         payload: Joi.object({
           title: Joi.string().min(1).max(100).optional(),
@@ -188,6 +190,9 @@ exports.register = function (server, options, next) {
           return reply().code(204);
 
       });
+    },
+    config: {
+      auth: 'bearer'
     }
   });
 
@@ -201,7 +206,7 @@ exports.register = function (server, options, next) {
           _id: request.params.id
       }, {
           $addToSet: {
-              upvoters: ''
+              upvoters: request.auth.credentials._id
           }
       }, (err, result) => {
 
@@ -216,7 +221,11 @@ exports.register = function (server, options, next) {
           return reply().code(204);
 
       });
+    },
+    config: {
+      auth: 'bearer'
     }
+
   });
 
   return next();
