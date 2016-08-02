@@ -52,3 +52,5 @@ server.register([{
   });
 
 });
+
+// all api end points working
