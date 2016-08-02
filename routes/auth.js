@@ -22,7 +22,7 @@ exports.register = function(server, options, next) {
         }
 
         if (!user) {
-          return reply(Boom.notAuthorized());
+          return reply(Boom.unauthorized());
         }
 
         Bcrypt.compare(request.payload.password, user.password, (err, res) => {
@@ -32,7 +32,7 @@ exports.register = function(server, options, next) {
           }
 
           if (!res) {
-            return reply(Boom.notAuthorized());
+            return reply(Boom.unauthorized());
           }
 
           return reply({
