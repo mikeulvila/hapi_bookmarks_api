@@ -34,6 +34,8 @@ server.register([{
   register: require('./routes/auth')
 }, {
   register: require('./routes/bookmarks')
+}, {
+  register: require('./routes/auth')
 }], (err) => {
   if (err) {
     throw err;
