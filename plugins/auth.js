@@ -2,9 +2,9 @@
 
 exports.register = function (server, options, next) {
 
-  const db = server.plugins['db'].db;
+  const db = server.app.db;
 
-  const validateFunction = (token, callback) {
+  const validateFunction = function (token, callback) {
 
     db.users.findOne({token: token}, (err, user) => {
 
@@ -22,10 +22,9 @@ exports.register = function (server, options, next) {
 
   server.auth.strategy('bearer', 'bearer-access-token', {
     validateFunc: validateFunction
-  })
+  });
 
    return next();
-  }
 };
 
 exports.register.attributes = {

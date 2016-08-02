@@ -8,7 +8,7 @@ exports.register = function (server, options, next) {
   const db = mongojs('social-bookmarks', ['bookmarks', 'users']);
 
   // make db accessible application wide
-  server.expose('db', db);
+  server.app.db = db;
 
   // insert fake users into db on startup
   const users = [{

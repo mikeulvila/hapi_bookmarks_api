@@ -6,7 +6,7 @@ const Boom = require('boom');
 
 exports.register = function (server, options, next) {
 
-  const db = server.plugins['db'].db;
+  const db = server.app.db;
 
   const renameAndClearFields = (doc) => {
     doc.id = doc._id;

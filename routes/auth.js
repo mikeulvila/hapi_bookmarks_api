@@ -6,7 +6,7 @@ const Joi = require('joi');
 
 exports.register = function(server, options, next) {
 
-  const db = server.plugins['db'].db;
+  const db = server.app.db;
 
   server.route({
     method: 'POST',
@@ -41,7 +41,6 @@ exports.register = function(server, options, next) {
           });
         });
       });
-      return reply('');
     },
     config: {
       validate: {
@@ -59,5 +58,5 @@ exports.register = function(server, options, next) {
 
 exports.register.attributes = {
   name: 'routes-auth',
-  dependencies: 'db'
+  dependencies: ['db']
 }

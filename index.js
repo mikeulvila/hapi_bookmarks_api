@@ -31,7 +31,7 @@ server.register([{
 }, {
   register: require('./plugins/db')
 }, {
-  register: require('./routes/auth')
+  register: require('./plugins/auth')
 }, {
   register: require('./routes/bookmarks')
 }, {
