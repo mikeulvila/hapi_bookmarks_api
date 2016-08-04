@@ -2,43 +2,17 @@
 
 const Hapi = require('hapi');
 const uuid = require('node-uuid');
+const Glue = require('glue');
 
-// hapi server and connection
-const server = new Hapi.Server();
-server.connection({
-  port: 3000
-});
+const manifest = require('./config.json');
 
-// register good plugin and start server
-server.register([{
-  register: require('good'),
-  options: {
-    reporters: {
-      console: [{
-        module: 'good-squeeze',
-        name: 'Squeeze',
-        args: [{
-          log: '*',
-          response: '*'
-        }]
-      }, {
-        module: 'good-console'
-      }, 'stdout']
-    }
-  }
-}, {
-  register: require('hapi-auth-bearer-token')
-}, {
-  register: require('./plugins/db')
-}, {
-  register: require('./plugins/auth')
-}, {
-  register: require('./routes/bookmarks')
-}, {
-  register: require('./routes/auth')
-}, {
-  register: require('blipp')
-}], (err) => {
+const options = {
+  relativeTo: __dirname
+};
+
+// start server with Glue
+Glue.compose(manifest, options, (err, server) => {
+
   if (err) {
     throw err;
   }
@@ -52,7 +26,4 @@ server.register([{
     console.log('server running on: ', server.info.uri);
 
   });
-
 });
-
-// all api end points working

@@ -1,0 +1,34 @@
+{
+    "connections": [{
+        "port": 3000
+    }],
+    "registrations": [{
+        "plugin": {
+            "register": "good",
+            "options": {
+                "reporters": {
+                    "console": [{
+                        "module": "good-squeeze",
+                        "name": "Squeeze",
+                        "args": [{
+                            "log": "*",
+                            "response": "*"
+                        }]
+                    }, {
+                        "module": "good-console"
+                    }, "stdout"]
+                }
+            }
+        }
+    }, {
+        "plugin": "hapi-auth-bearer-token"
+    }, {
+        "plugin": "./plugins/db"
+    }, {
+        "plugin": "./plugins/auth"
+    }, {
+        "plugin": "./routes/bookmarks"
+    }, {
+        "plugin": "./routes/auth"
+    }]
+}
