@@ -36,6 +36,8 @@ server.register([{
   register: require('./routes/bookmarks')
 }, {
   register: require('./routes/auth')
+}, {
+  register: require('blipp')
 }], (err) => {
   if (err) {
     throw err;
